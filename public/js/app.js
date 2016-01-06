@@ -7,6 +7,7 @@ $(function() {
   var $movie2Weekly = $("#movie2-weekly");
   var $movie1Title = $("#movie1-title");
   var $movie2Title = $("#movie2-title");
+  var $summary = $("#summary");
   var movies = [{
     title: '',
     urlTitle: ''
@@ -51,6 +52,16 @@ $(function() {
         res.movie2.forEach(function(week) {
           $movie2Weekly.append("<li>"+week+"</li>");
         });
+        var total1 = res.movie1.reduce(function(prev, cur) {
+          return prev + parseInt(cur.replace(/\$|,/g,''));
+        },0);
+        var total2 = res.movie2.reduce(function(prev, cur) {
+          return prev + parseInt(cur.replace(/\$|,/g,''));
+        },0);
+        var summaryText = '';
+        summaryText += movies[0].title + " earned $" + total1.toLocaleString() + " over " + res.movie1.length + " weeks.  ";
+        summaryText += movies[1].title + " earned $" + total2.toLocaleString() + " over " + res.movie2.length + " weeks.";
+        $summary.text(summaryText);
       });
     }
     
